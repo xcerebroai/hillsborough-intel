@@ -30,7 +30,10 @@ jobs:
         run: pip install -r scraper/requirements.txt
 
       - name: Install Playwright browser
-        run: playwright install chromium --with-deps
+        run: |
+          pip install playwright
+          python -m playwright install chromium
+          python -m playwright install-deps chromium
 
       - name: Run scraper
         run: python scraper/fetch.py
