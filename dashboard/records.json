@@ -1,0 +1,8 @@
+{
+  "fetched_at": null,
+  "source": "Hillsborough County Clerk of Court",
+  "date_range": { "from": null, "to": null },
+  "total": 0,
+  "_note": "Placeholder — run the GitHub Action to populate real data.",
+  "records": []
+}
