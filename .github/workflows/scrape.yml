@@ -2,9 +2,8 @@ name: Hillsborough Intel — Daily Scrape & Deploy
 
 on:
   schedule:
-    # Every day at 7:00 AM UTC (2:00 AM EST / 3:00 AM EDT)
     - cron: "0 7 * * *"
-  workflow_dispatch:   # Manual trigger from GitHub UI
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -12,10 +11,9 @@ permissions:
   id-token: write
 
 jobs:
-  # ── JOB 1: Scrape ────────────────────────────────────────────────────────
   scrape:
     name: Scrape Hillsborough Clerk
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repo
@@ -32,8 +30,7 @@ jobs:
       - name: Install Playwright browser
         run: |
           pip install playwright
-          python -m playwright install chromium
-          python -m playwright install-deps chromium
+          python -m playwright install --with-deps chromium
 
       - name: Run scraper
         run: python scraper/fetch.py
@@ -46,7 +43,6 @@ jobs:
           git diff --cached --quiet || git commit -m "data: daily refresh $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push
 
-  # ── JOB 2: Deploy Pages ──────────────────────────────────────────────────
   deploy:
     name: Deploy GitHub Pages
     needs: scrape
